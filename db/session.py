@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import contextlib
+from typing import overload
 
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
-engine = create_async_engine('sqlite+aiosqlite:///db/database?check_same_thread=False', echo=True)
+engine = create_async_engine('sqlite+aiosqlite:///db/database?check_same_thread=False', echo=False)
 session_factory = async_sessionmaker(engine, expire_on_commit=False)
 
 
@@ -18,7 +19,12 @@ async def global_init():
     print('Created')
 
 
-@contextlib.asynccontextmanager
 async def create_session() -> AsyncSession:
     async with session_factory() as session:
         yield session
+
+
+# @contextlib.asynccontextmanager
+# async def create_session() -> AsyncSession:
+#     async with session_factory() as session:
+#         yield session
