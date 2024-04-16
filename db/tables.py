@@ -10,9 +10,9 @@ from db.session import Base
 class User(Base, SerializerMixin):
     __tablename__ = 'user'
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    login: Mapped[str] = mapped_column(nullable=False, unique=True)
+    username: Mapped[int] = mapped_column(nullable=False, unique=True)
     email: Mapped[str] = mapped_column(nullable=False)
-    password: Mapped[str] = mapped_column(nullable=False)
+    hashed_password: Mapped[str] = mapped_column(nullable=False)
 
     posts: Mapped[list[Post]] = relationship(back_populates='author')
     comments: Mapped[list[Comment]] = relationship(back_populates='author')
